@@ -1,21 +1,40 @@
-// Node.js example using the 'request-promise' library
-const rp = require('request-promise');
+// Assume this is a Node.js server-side code
 
-function fetchData(url) {
-  // This function makes an HTTP GET request to the specified URL
-  return rp(url);
+const http = require('http');
+const url = require('url');
+
+function fetchInternalResource(userProvidedURL) {
+  // Parse the user-provided URL
+  const parsedURL = url.parse(userProvidedURL);
+
+  // Check if the URL is valid and points to an internal resource
+  if (parsedURL.hostname === 'internal-server' && parsedURL.path === '/sensitive-data') {
+    // Perform the request to the internal resource
+    http.get(userProvidedURL, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        console.log('Internal resource content:', data);
+      });
+    }).on('error', (err) => {
+      console.error('Error accessing internal resource:', err.message);
+    });
+  } else {
+    console.error('Invalid or external URL provided');
+  }
 }
 
-function processUserInput(input) {
-  // This function takes user input and fetches data based on it
-  const url = `https://api.example.com/data?input=${input}`;
-  return fetchData(url);
+// Assume this function is called with a user-provided URL
+function processUserInput(userInput) {
+  // Perform some processing on the user input
+  const sanitizedInput = userInput.trim();
+
+  // Call the function that fetches the internal resource
+  fetchInternalResource(sanitizedInput);
 }
 
-// Example usage of the functions
-const userInput = 'https://internal-resource.example.com/private-data';
-const result = processUserInput(userInput);
-
-result
-  .then(data => console.log('Data:', data))
-  .catch(err => console.error('Error:', err.message));
+// Example usage
+const userInput = 'http://internal-server/sensitive-data';
+processUserInput(userInput);
