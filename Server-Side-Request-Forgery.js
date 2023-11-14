@@ -1,3 +1,7 @@
+/*
+In this example, the processUserInput function takes input from an untrusted source (userInput) and directly uses it to construct the URL. The URL is then passed to the fetchUrl function, which fetches the content of the specified URL.
+*/
+
 const fetchUrl = (url) => {
   // Insecure SSRF vulnerability
   fetch(url)
