@@ -1,40 +1,26 @@
-// Assume this is a Node.js server-side code
+function fetchData(url) {
+    // Perform some validation to ensure the URL is valid
+    // ...
 
-const http = require('http');
-const url = require('url');
+    // Make a request to the specified URL
+    var response = makeHttpRequest(url);
 
-function fetchInternalResource(userProvidedURL) {
-  // Parse the user-provided URL
-  const parsedURL = url.parse(userProvidedURL);
-
-  // Check if the URL is valid and points to an internal resource
-  if (parsedURL.hostname === 'internal-server' && parsedURL.path === '/sensitive-data') {
-    // Perform the request to the internal resource
-    http.get(userProvidedURL, (res) => {
-      let data = '';
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      res.on('end', () => {
-        console.log('Internal resource content:', data);
-      });
-    }).on('error', (err) => {
-      console.error('Error accessing internal resource:', err.message);
-    });
-  } else {
-    console.error('Invalid or external URL provided');
-  }
+    // Process the response and return the data
+    return processResponse(response);
 }
 
-// Assume this function is called with a user-provided URL
-function processUserInput(userInput) {
-  // Perform some processing on the user input
-  const sanitizedInput = userInput.trim();
+function makeHttpRequest(url) {
+    // Code to make an HTTP request to the provided URL
+    // ...
 
-  // Call the function that fetches the internal resource
-  fetchInternalResource(sanitizedInput);
+    // Return the response
+    return httpResponse;
 }
 
-// Example usage
-const userInput = 'http://internal-server/sensitive-data';
-processUserInput(userInput);
+function processResponse(response) {
+    // Code to process the response
+    // ...
+
+    // Return the processed data
+    return processedData;
+}
